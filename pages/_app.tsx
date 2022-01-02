@@ -5,8 +5,7 @@ import mapboxgl from 'mapbox-gl'; // or "const mapboxgl = require('mapbox-gl');"
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { MapProvider } from '../context/map/MapProvider';
 
-mapboxgl.accessToken =
-  'pk.eyJ1IjoiY2VzYXJpb25pdmFyIiwiYSI6ImNreHNha2JvcjM5aHEyb3F3YXY1OWNmb2wifQ.YLXA39FWiMhEXxxG4Qj7Xg';
+mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_API_KEY!;
 
 function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
