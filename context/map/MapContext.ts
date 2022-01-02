@@ -7,6 +7,7 @@ export interface MapProps {
   map?: Map;
 
   setMap: (map: Map) => void;
+  setNewLocation: (lngLat: [number, number]) => void;
 }
 
 export const MapContext = createContext({} as MapProps);

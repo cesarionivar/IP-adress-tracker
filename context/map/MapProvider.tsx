@@ -40,8 +40,17 @@ export const MapProvider = ({ children }: MapProps) => {
     dispatch({ type: 'setMap', payload: map });
   };
 
+  const setNewLocation = (lngLat: [number, number]) => {
+    state.map?.flyTo({
+      center: lngLat,
+      zoom: 14,
+    });
+
+    const prevMarker = new Marker().setLngLat(lngLat).addTo(state.map!);
+  };
+
   return (
-    <MapContext.Provider value={{ ...state, setMap }}>
+    <MapContext.Provider value={{ ...state, setMap, setNewLocation }}>
       {children}
     </MapContext.Provider>
   );

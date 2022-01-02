@@ -1,13 +1,36 @@
-import { useRef } from 'react';
+import { Marker } from 'mapbox-gl';
+import { ChangeEvent, useContext, useRef } from 'react';
+import { clientAxios } from '../config/clientAxios';
+import { MapContext } from '../context/map/MapContext';
 
 export const SearchBar = () => {
   const debounce = useRef<NodeJS.Timeout>();
+  const { setNewLocation } = useContext(MapContext);
 
-  const handleChange = () => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const term = e.target.value;
+    if (!term) return null;
     if (debounce.current) clearTimeout(debounce.current);
 
+    let isDomain = term.match(/\./g)?.length === 1;
+    let param = isDomain ? 'domain' : 'ipAddress';
+
     debounce.current = setTimeout(() => {
-      // TODO: implement a debounce to make request to https://geo.ipify.org/
+      clientAxios
+        .get(`/country,city?${param}=${term}`)
+        .then((res) => {
+          const lngLat: [number, number] = [
+            res.data.location.lng,
+            res.data.location.lat,
+          ];
+
+          setNewLocation(lngLat);
+        })
+        .catch((err) => {
+          alert(param + ' not found');
+        });
+
+      e.target.value = '';
     }, 1000);
   };
 
