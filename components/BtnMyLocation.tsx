@@ -2,9 +2,10 @@ import { useContext } from 'react';
 import { MapContext } from '../context/map/MapContext';
 
 export const BtnMyLocation = () => {
-  const { map, userLocation } = useContext(MapContext);
+  const { map, prevMarker, userLocation } = useContext(MapContext);
 
   const handleClick = () => {
+    prevMarker?.remove();
     map?.flyTo({
       center: userLocation,
       zoom: 15,

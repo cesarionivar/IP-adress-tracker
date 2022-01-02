@@ -8,12 +8,14 @@ export interface MapState {
   isLoading: boolean;
   userLocation?: [number, number];
   map?: Map;
+  prevMarker?: Marker;
 }
 
 const INITIAL_STATE: MapState = {
   isLoading: true,
   userLocation: undefined,
   map: undefined,
+  prevMarker: undefined,
 };
 
 interface MapProps {
@@ -41,12 +43,15 @@ export const MapProvider = ({ children }: MapProps) => {
   };
 
   const setNewLocation = (lngLat: [number, number]) => {
+    state.prevMarker?.remove();
+
     state.map?.flyTo({
       center: lngLat,
       zoom: 14,
     });
 
     const prevMarker = new Marker().setLngLat(lngLat).addTo(state.map!);
+    dispatch({ type: 'setMarker', payload: prevMarker });
   };
 
   return (
