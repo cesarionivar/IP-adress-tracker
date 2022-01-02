@@ -5,7 +5,7 @@ export const BtnMyLocation = () => {
   const { map, prevMarker, userLocation } = useContext(MapContext);
 
   const handleClick = () => {
-    prevMarker?.remove();
+    prevMarker?.remove(); // Remove previous marker of the location searched
     map?.flyTo({
       center: userLocation,
       zoom: 15,

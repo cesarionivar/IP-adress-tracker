@@ -1,5 +1,6 @@
 import { Marker } from 'mapbox-gl';
 import { ChangeEvent, useContext, useRef } from 'react';
+import Swal from 'sweetalert2';
 import { clientAxios } from '../config/clientAxios';
 import { MapContext } from '../context/map/MapContext';
 
@@ -26,8 +27,12 @@ export const SearchBar = () => {
 
           setNewLocation(lngLat);
         })
-        .catch((err) => {
-          alert(param + ' not found');
+        .catch(() => {
+          Swal.fire(
+            'Warning',
+            `Has ocurred an error finding the IP Address or the Domain`,
+            'warning'
+          );
         });
 
       e.target.value = '';
